@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-c5@%s271v)!vyl4su_il64f#0v)whrrfvgr_qt3=iq0v@nqfo-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost','0.0.0.0','python.sicsglobal.com', '127.0.0.1']
+ALLOWED_HOSTS = ['localhost','0.0.0.0','python.sicsglobal.com', '127.0.0.1','sentimart.onrender.com']
 # FORCE_SCRIPT_NAME = '/inventory_management'
 # Add CSRF trusted origins
 CSRF_TRUSTED_ORIGINS = [
