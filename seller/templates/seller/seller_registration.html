@@ -1,0 +1,182 @@
+{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <title>Sentimart Registration</title>
+    <!-- Cache Control Meta Tags -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <!-- Prevents Chrome auto-fill -->
+    <meta name="autocomplete" content="off">
+    <meta name="robots" content="noindex,nofollow">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+      }
+      /* Prevent form autofill styling */
+      input:-webkit-autofill,
+      input:-webkit-autofill:hover, 
+      input:-webkit-autofill:focus {
+        -webkit-box-shadow: 0 0 0px 1000px white inset !important;
+      }
+      .relative {
+        position: relative;
+      }
+      .absolute {
+        position: absolute;
+      }
+    </style>
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <header class="bg-[#3a7a7f] h-10 w-full"></header>
+    <main class="flex flex-col md:flex-row justify-center items-start flex-grow p-6 md:p-12 gap-12 max-w-7xl mx-auto w-full">
+      <!-- Left side with logo above section -->
+      <div class="flex flex-col items-center md:items-start max-w-md w-full relative mt-12">
+        <!-- Centered logo above the shadowed section -->
+        <div class="absolute -top-20 left-1/2 transform -translate-x-1/2 md:-translate-x-0 md:left-[calc(50%-100px)] mt-10">
+          <a href="{% url 'landing_page' %}"><img
+            alt="Sentimart logo"
+            height="70"
+            width="200"
+            src="{% static 'images/logo2.png' %}"
+          />
+          </a>
+        </div>
+
+        <!-- Content Box -->
+        <section class="flex flex-col items-center md:items-start bg-white rounded-2xl shadow-[0_0_8px_rgba(0,0,0,0.15)] p-8 md:p-12 w-full min-h-[630px] mt-[130px]">
+          <h2 class="text-[#5a9ea1] text-2xl font-semibold mb-2 self-start mt-6">Hello !</h2>
+          <p class="text-xs leading-tight mb-12 self-start">
+            A Very warm Welcome.<br />
+            It is lovely to have you among us!<br />
+            Please Register to Continue...
+          </p>
+          <img
+            alt="3D illustration of a man sitting on a chair using a laptop, thinking"
+            class="w-80 h-auto mt-auto"
+            height="300"
+            width="260"
+            src="{% static 'images/seller_reg.png' %}"
+          />
+        </section>
+      </div>
+
+      <!-- Right side -->
+      <section class="w-full max-w-md">
+        <h3 class="text-lg font-semibold mb-4 text-center">Registration</h3>
+        <div class="flex flex-col items-center mb-6">
+          <img
+            alt="User icon"
+            class="mb-1"
+            height="60"
+            width="60"
+            src="https://iili.io/31MDxg2.png"
+          />
+        </div>
+
+        <!-- Notice the method, enctype and csrf token for file upload -->
+        <form class="flex flex-col gap-4" method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+
+          {% comment %} Full Name {% endcomment %}
+          <label class="text-xs" for="fullname">Full Name</label>
+          <input id="fullname" name="fullname" type="text" placeholder="Enter your full name"
+                value="{{ form_data.fullname|default:'' }}"
+                class="border border-[#5a9ea1] rounded-md px-3 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-[#5a9ea1]" />
+          {% if errors.fullname %}<p class="text-red-500 text-xs">{{ errors.fullname }}</p>{% endif %}
+
+          {% comment %} Email {% endcomment %}
+          <label class="text-xs" for="email">Email Address</label>
+          <input id="email" name="email" type="email" placeholder="Enter your mail id"
+                value="{{ form_data.email|default:'' }}"
+                class="border border-[#5a9ea1] rounded-md px-3 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-[#5a9ea1]" />
+          {% if errors.email %}<p class="text-red-500 text-xs">{{ errors.email }}</p>{% endif %}
+
+          {% comment %} Password {% endcomment %}
+          <label class="text-xs" for="password">Password</label>
+          <div class="relative">
+            <input id="password" name="password" type="password" placeholder="Enter your password"
+                  class="border border-[#5a9ea1] rounded-md px-3 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-[#5a9ea1] w-full" />
+            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 cursor-pointer" onclick="togglePassword()">
+              <i class="fas fa-eye-slash" id="password-icon"></i>
+            </span>
+          </div>
+          {% if errors.password %}<p class="text-red-500 text-xs">{{ errors.password }}</p>{% endif %}
+
+          {% comment %} Phone {% endcomment %}
+          <label class="text-xs" for="phone">Phone Number</label>
+          <input id="phone" name="phone" type="tel" pattern="[0-9]{10}" placeholder="Enter your phone number"
+                value="{{ form_data.phone|default:'' }}"
+                class="border border-[#5a9ea1] rounded-md px-3 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-[#5a9ea1]" />
+          {% if errors.phone %}<p class="text-red-500 text-xs">{{ errors.phone }}</p>{% endif %}
+
+          {% comment %} Business Name {% endcomment %}
+          <label class="text-xs" for="displayname">Business Name</label>
+          <input id="displayname" name="displayname" type="text" placeholder="Enter your business name"
+                value="{{ form_data.displayname|default:'' }}"
+                class="border border-[#5a9ea1] rounded-md px-3 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-[#5a9ea1]" />
+          {% if errors.displayname %}<p class="text-red-500 text-xs">{{ errors.displayname }}</p>{% endif %}
+
+          {% comment %} Business Type {% endcomment %}
+          <label class="text-xs" for="businesstype">Business Type</label>
+          <input id="businesstype" name="businesstype" type="text" placeholder="Enter your business type"
+                value="{{ form_data.businesstype|default:'' }}"
+                class="border border-[#5a9ea1] rounded-md px-3 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-[#5a9ea1]" />
+          {% if errors.businesstype %}<p class="text-red-500 text-xs">{{ errors.businesstype }}</p>{% endif %}
+
+          {% comment %} Business Address {% endcomment %}
+          <label class="text-xs" for="businessaddress">Business Address</label>
+          <input id="businessaddress" name="businessaddress" type="text" placeholder="Enter your business address"
+                value="{{ form_data.businessaddress|default:'' }}"
+                class="border border-[#5a9ea1] rounded-md px-3 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-[#5a9ea1]" />
+          {% if errors.businessaddress %}<p class="text-red-500 text-xs">{{ errors.businessaddress }}</p>{% endif %}
+
+          {% comment %} Registration Number {% endcomment %}
+          <label class="text-xs" for="registernumber">Registration Number</label>
+          <input id="registernumber" name="registernumber" type="text" placeholder="Enter your registration number"
+                value="{{ form_data.registernumber|default:'' }}"
+                class="border border-[#5a9ea1] rounded-md px-3 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-[#5a9ea1]" />
+          {% if errors.registernumber %}<p class="text-red-500 text-xs">{{ errors.registernumber }}</p>{% endif %}
+
+          {% comment %} Validation Document {% endcomment %}
+          <label class="text-xs" for="validationdoc">Validation Document</label>
+          <input id="validationdoc" name="validationdoc" type="file"
+                class="border border-gray-300 rounded px-2 py-1" />
+          {% if errors.validationdoc %}<p class="text-red-500 text-xs">{{ errors.validationdoc }}</p>{% endif %}
+
+          <button type="submit" class="mt-4 bg-[#5a9ea1] text-white rounded-md py-2 px-4 text-sm hover:bg-[#4a7a7f] transition-colors">
+            Sign up
+          </button>
+        </form>
+
+        <p class="text-xs text-center mt-4">
+          Already a User?
+          <a class="text-[#5a9ea1] hover:underline" href="{% url 'login' %}">Sign In</a>
+        </p>
+      </section>
+    </main>
+
+    <script>
+      function togglePassword() {
+            const passwordField = document.getElementById('password');
+            const passwordIcon = document.getElementById('password-icon');
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+                passwordIcon.classList.remove('fa-eye-slash');
+                passwordIcon.classList.add('fa-eye');
+            } else {
+                passwordField.type = "password";
+                passwordIcon.classList.remove('fa-eye');
+                passwordIcon.classList.add('fa-eye-slash');
+            }
+        }
+    </script>
+  </body>
+</html>
+

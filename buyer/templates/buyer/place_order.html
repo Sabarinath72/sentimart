@@ -1,0 +1,62 @@
+{% extends './buyer_base.html' %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card mb-4">
+                <div class="card-header bg-info text-white">
+                    <h4>Review Your Order</h4>
+                </div>
+                <div class="card-body">
+                    <h5>Cart Items</h5>
+                    <ul class="list-group mb-4">
+                        {% for item in cart_items %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            {{ item.product.name }} (x{{ item.quantity }})
+                            <span>₹{{ item.product.base_price }}</span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    
+                    <div class="d-flex justify-content-between mb-4">
+                        <strong>Total:</strong>
+                        <strong>₹{{ total_price }}</strong>
+                    </div>
+                    
+                    <h5 class="mt-4">Delivery Address</h5>
+                    {% if default_address %}
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <p>
+                                <strong>{{ default_address.name }}</strong><br>
+                                {{ default_address.street_address }}<br>
+                                {{ default_address.city }}, {{ default_address.state }} - {{ default_address.zip_code }}<br>
+                                Phone: {{ default_address.phone_number }}
+                            </p>
+                        </div>
+                        <a href="{% url 'address_list' %}" class="text-blue-500 underline">Change Address</a>
+                    </div>
+                    {% else %}
+                    <div class="alert alert-warning">
+                        No default address set. Please add an address first.
+                    </div>
+                    {% endif %}
+                    
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="form-group form-check">
+                            <input type="checkbox" class="form-check-input" id="terms" required>
+                            <label class="form-check-label" for="terms">I agree to the Terms & Conditions</label>
+                        </div>
+                        
+                        <button type="submit" class="btn bg-info text-white btn-block" {% if not default_address %}disabled{% endif %}>
+                            Proceed to Payment
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,74 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Login - Sentimart</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+
+<body class="bg-white min-h-screen flex flex-col">
+    <header class="bg-[#4a8287] h-12 w-full"></header>
+    {% if messages %}
+        {% for message in messages %}
+            <p style="color:red">{{ message }}</p>
+        {% endfor %}
+    {% endif %}
+    <main class="flex flex-1 justify-center items-center px-6">
+        <div class="max-w-6xl w-full flex flex-col md:flex-row items-center md:items-start gap-10 md:gap-0.5">
+            <div class="flex justify-center md:justify-start w-full md:w-1/2"> <a href="{% url 'landing_page' %}"><img 
+                    src="{% static 'images/logo2.png' %}"
+                    alt="Sentimart logo with stylized wave design above the text" class="w-60 mt-24 ml- h-auto" /></a></div>
+                    
+            <form class="w-full max-w-md" method="post" action="{% url 'login' %}">
+                {% csrf_token %}
+                <h2 class="text-black text-2xl font-semibold mb-1 text-center md:text-left"> Log into your account </h2>
+                <p class="text-black text-sm mb-6 text-center md:text-left"> Welcome back! enter Your details </p>
+                <label for="username" class="block text-xs mb-1 text-black">Username</label>
+                <div class="relative mb-4"> <input id="username" name="username" type="text" placeholder="Enter your username"
+                        class="w-full border border-[#4a8287] rounded-md px-4 py-2 placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-[#4a8287]" />
+                </div> <label for="password" class="block text-xs mb-1 text-black">Password</label>
+                <div class="relative mb-8"> <input id="password" name="password" type="password"
+                        placeholder="Enter password"
+                        class="w-full border border-[#4a8287] rounded-md px-4 py-2 placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-[#4a8287]" />
+                    <span class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 cursor-pointer" onclick="togglePassword()">
+                        <i class="fas fa-eye-slash" id="eye"></i>
+                    </span> </div>
+                <button type="submit" class="w-full bg-[#4a8287] text-white py-3 rounded-lg text-base font-normal hover:bg-[#3b6a6f] transition-colors">
+                    Sign in
+                </button>
+                <p class="text-xs text-center mt-4">
+          new user?
+          <a class="text-[#5a9ea1] mb-4 hover:underline" href="{% url 'buyer-register' %}">Sign Up</a> <br>
+          <a href="{% url 'forgot-password' %}" class="text-xs mt-2 ms-auto ">Forgot password?</a>
+        </p>
+            </form>
+        </div>
+    </main>
+    <script>
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const eyeIcon = document.getElementById('eye');
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                eyeIcon.classList.remove('fa-eye-slash');
+                eyeIcon.classList.add('fa-eye');
+            } else {
+                passwordInput.type = 'password';
+                eyeIcon.classList.remove('fa-eye');
+                eyeIcon.classList.add('fa-eye-slash');
+            }
+        }
+    </script>
+</body>
+
+</html>
+
